@@ -3,8 +3,10 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import vo.Product;
 import vo.UserAccountVO;
 
 
@@ -39,6 +41,9 @@ public class UserAccountDao {
 	// 회원가입 - db 테이블에 insert
 	
 	// insert할 값이 UserAccountVO에 있음으로 인자를 받음
+    // db테이블의 not null 컬럼 5개 값은 반드시 vo에 저장되어있어야함
+    //						ㄴ 값이 null 이면 예외 발생
+    //						ㄴ 사용자 입력한 내용을 유효 여부 검증 -> 자바스크립트 (브라우저)
 	public int insert(UserAccountVO vo) {
 		int result = 0;
 		String sql = "INSERT INTO TBL_USER_ACCOUNT(USERID,USERNAME,PASSWORD,BIRTH,GENDER,EMAIL) VALUES(?,?,?,?,?,?)";
@@ -48,10 +53,12 @@ public class UserAccountDao {
 			) {
 				pstmt.setString(1, vo.getUserid());
 				pstmt.setString(2, vo.getUsername());
+				//null; 도 가능 
 				pstmt.setString(3, vo.getPassword());
 				pstmt.setString(4, vo.getBirth());
 				pstmt.setString(5, vo.getGender());
 				pstmt.setString(6, vo.getEmail());
+				
 				
 				result = pstmt.executeUpdate();
 
@@ -61,4 +68,30 @@ public class UserAccountDao {
 		}
 	return result;
 }
+	
+	
+	public UserAccountVO selectForLogin(String userid , String password) {
+		String sql = "SELECT * FROM TBL_USER_ACCOUNT WHERE USERID = ? AND PASSWORD = ?";
+		UserAccountVO account = null;
+		try (Connection connection = getConnection();
+		PreparedStatement pstmt = connection.prepareStatement(sql);
+		){
+			pstmt.setString(1, userid);
+			pstmt.setString(2, password);
+			
+			ResultSet rs = pstmt.executeQuery();
+			 if(rs.next()){
+				 account = new UserAccountVO(rs.getString(1),
+                                       rs.getString(2),
+                                       rs.getString(3),
+                                       rs.getString(4),
+                                       rs.getString(5),
+                                       rs.getString(6));
+			 }
+			
+		} catch (SQLException e) {
+			System.out.println("특정 회원 검색 오류 : " + e.getMessage());
+		}
+		return account;
+	}
 }

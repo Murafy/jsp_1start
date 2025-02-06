@@ -24,10 +24,19 @@
 		
         // UserAccountDao 싱글톤 인스턴스 가져오기
         UserAccountDao dao = UserAccountDao.getInstance();
+		
    	    // 전달된 값을 이용해 UserAccountVO 객체 생성
         UserAccountVO vo = new UserAccountVO (userid,username,password,birth,gender,email);
+   	    
+   	    
         // insert 메서드 호출하여 데이터베이스에 저장
+        // insert 메서드의 쿼리실행문이 executeUpdate 이므로 데이터베이스가 영향받은 행의갯수를 int타입으로 리턴함 
+        // 리턴받은 int 타입의 리턴값을 result변수에 저장후 아래 if문에서 비교
+        // dao.insert(vo)는 29번줄 (각각의 필드변수에 대응되는) 데이터를 담고있음 dao의 insert 메서드를에 필요한 데이터를 전달
         int result = dao.insert(vo);
+        
+        
+       
 
         // 결과 처리
         if (result > 0) {

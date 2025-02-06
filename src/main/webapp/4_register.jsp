@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>4_register.jsp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel = "stylesheet" href="css/form.css"/>
     <style type="text/css">
     .regForm {
     	max-width: 500px;
@@ -15,9 +16,17 @@
     .w90{
     	width: 90px;
     }
+   /* > 기호는 자식, + 기호는 형제 선택자 , 기호는 목록 나열 */
+    div.input-group > input + span ,div.input-group > select + span {
+    	color:red;
+    	font-size: 1rem;
+    	padding-left: 15px;
+    
+    }
+    
     
     </style>
-  <script type="text/javascript" src="js/check.js"></script>
+  <script type="text/javascript" src="js/check2.js"></script>
   </head>
   <body>
   <div class="container regForm">  
@@ -33,18 +42,22 @@
     <div class="input-group mb-3">
 	  <span class="input-group-text w90" id="basic-addon1">성 명</span>
 	  <input type="text" class="form-control" name="username" placeholder="성명을 입력하세요." >
+	  <span id="usernameMsg"></span>
 	</div>
     <div class="input-group mb-3">
 	  <span class="input-group-text w90" id="basic-addon2"> 아 이 디</span>
-	  <input type="text" class="form-control" name="password" placeholder="아이디를 입력하세요." >
+	  <input type="text" class="form-control" name="userid" placeholder="아이디를 입력하세요." >
+	  <span id="useridMsg"></span>
 	</div>
 	<div class="input-group mb-3">
 	  <span class="input-group-text" id="basic-addon3">패스워드</span>
-	  <input type="password" class="form-control" name="userid" placeholder="패스워드를 입력하세요." >
+	  <input type="password" class="form-control" name="password" placeholder="패스워드를 입력하세요." >
+	  <span id="passwordMsg"></span>
 	</div>
 	<div class="input-group mb-3">
 	  <span class="input-group-text" id="basic-addon4">생년월일</span>
 	  <input type="date" class="form-control" name="birth" placeholder="생년월일을 입력하세요." >
+	  <span id="birthMsg"></span>
 	</div>
 	<div class="input-group mb-3">
 	  <span class="input-group-text w90" id="basic-addon5">성 별</span>
@@ -54,6 +67,7 @@
 	  		<option value="female">여자</option>
 	  		<option value="unknow">비공개</option>
 	  </select>
+	  <span id="genderMsg"></span>
 	</div>
 	<div class="input-group mb-3">
 	  <span class="input-group-text w90" id="basic-addon6">이메일 </span>
